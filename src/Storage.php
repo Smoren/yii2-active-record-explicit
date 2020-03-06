@@ -7,13 +7,20 @@ namespace Smoren\Yii2\ArrayStorage;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Класс для управления данными в массиве-хранилище
+ * @package Smoren\Yii2\ArrayStorage
+ */
 class Storage
 {
+    /**
+     * @var array массив данных хранилища
+     */
     protected $storage;
 
     /**
      * BaseStorage constructor.
-     * @param array|null $storage
+     * @param array|null $storage исходный массив хранилища с доступом по ссылке
      */
     public function __construct(?array &$storage = null)
     {
@@ -21,15 +28,16 @@ class Storage
     }
 
     /**
-     * @param string $key
+     * Проверить наличие ключа в хранилище (вложенность разделяется точками)
+     * @param string $key ключ в хранилище. Например: 'a.b.c.0' соответствует $this->storage['a']['b']['c'][0]
      * @param bool $throwException
      * @return bool
      * @throws Exception
      */
     public function has(string $key, bool $throwException = false): bool
     {
-        $value = ArrayHelper::getValue($this->storage, $key, NAN);
-        $result = !is_nan($value);
+        $value = ArrayHelper::getValue($this->storage, $key, INF);
+        $result = !($value == INF);
 
         if(!$result && $throwException) {
             throw new Exception("key '{$key}' is not exist in user storage", 1);
@@ -39,9 +47,10 @@ class Storage
     }
 
     /**
-     * @param string|null $key
-     * @param null $defaultValue
-     * @return array|mixed|null
+     * Получить значение их хранилища по его ключу, либо все хранилище, если ключ не указан
+     * @param string|null $key ключ в хранилище. Например: 'a.b.c.0' соответствует $this->storage['a']['b']['c'][0]
+     * @param null $defaultValue значение по умолчанию
+     * @return mixed
      * @throws Exception
      */
     public function get(?string $key = null, $defaultValue = null)
@@ -63,9 +72,10 @@ class Storage
     }
 
     /**
-     * @param string $key
-     * @param $value
-     * @param bool $rewriteExist
+     * Записать в хранилище значение по ключу
+     * @param string $key ключ в хранилище. Например: 'a.b.c.0' соответствует $this->storage['a']['b']['c'][0]
+     * @param mixed $value значение
+     * @param bool $rewriteExist перезаписывать ли существующие данные или бросить исключение
      * @return Storage
      * @throws Exception
      */
@@ -81,8 +91,9 @@ class Storage
     }
 
     /**
-     * @param string $key
-     * @return mixed
+     * Удалить из хранилища значение по ключу
+     * @param string $key ключ в хранилище. Например: 'a.b.c.0' соответствует $this->storage['a']['b']['c'][0]
+     * @return mixed удаленное значение
      * @throws Exception
      */
     public function remove(string $key)
@@ -103,6 +114,7 @@ class Storage
     }
 
     /**
+     * Очистить хранилище
      * @return $this
      */
     public function clear(): self
