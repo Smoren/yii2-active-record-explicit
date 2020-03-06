@@ -28,16 +28,11 @@ class Storage
      */
     public function has(string $key, bool $throwException = false): bool
     {
-        /** @var mixed $value */
-        $value = ArrayHelper::getValue(
-            $this->storage, $key, new Exception("key '{$key}' is not exist in user storage", 1)
-        );
-
-        $result = !($value instanceof Exception);
+        $value = ArrayHelper::getValue($this->storage, $key, NAN);
+        $result = !is_nan($value);
 
         if(!$result && $throwException) {
-            /** @var Exception $value */
-            throw $value;
+            throw new Exception("key '{$key}' is not exist in user storage", 1);
         }
 
         return $result;
