@@ -7,7 +7,8 @@ namespace Smoren\Yii2\ActiveRecordExplicit;
 use yii\base\InvalidConfigException;
 
 /**
- * Класс для AR модели текущего приложения
+ * Class ActiveRecord
+ * @package Smoren\Yii2\ActiveRecordExplicit
  */
 abstract class ActiveRecord extends \yii\db\ActiveRecord
 {

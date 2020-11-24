@@ -6,6 +6,10 @@ namespace Smoren\Yii2\ActiveRecordExplicit;
 
 use Smoren\ExtendedExceptions\BaseException;
 
+/**
+ * Class DbException
+ * @package Smoren\Yii2\ActiveRecordExplicit
+ */
 class DbException extends BaseException
 {
     const STATUS_UNKNOWN = -1;

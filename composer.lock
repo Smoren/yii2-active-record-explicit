@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bef32c6db093e165b3ac23bf95eee96",
+    "content-hash": "235aaec87a3daa25ce252eba2324075b",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -245,7 +245,7 @@
             "time": "2020-06-29T00:56:53+00:00"
         },
         {
-            "name": "smoren/extended-exceptions-php",
+            "name": "smoren/extended-exceptions",
             "version": "1.0.0",
             "source": {
                 "type": "git",

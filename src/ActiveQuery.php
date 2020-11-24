@@ -12,8 +12,8 @@ use yii\db\BaseActiveRecord;
 use yii\db\Transaction;
 
 /**
- * Расширенный класс для составления запроса к БД, связанный с Active Record
- * @see ActiveRecord
+ * Class ActiveQuery
+ * @package Smoren\Yii2\ActiveRecordExplicit
  */
 class ActiveQuery extends \yii\db\ActiveQuery
 {
