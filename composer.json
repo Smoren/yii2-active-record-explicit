@@ -1,8 +1,8 @@
 {
-  "name": "smoren/yii2-array-storage",
-  "description": "Class for storing and managing data in an array",
+  "name": "smoren/yii2-active-record-explicit",
+  "description": "Extended and more explicit behavior for ActiveRecord classes for Yii2",
   "type": "yii2-extension",
-  "keywords": ["yii2", "extension", "array", "ArrayHelper"],
+  "keywords": ["yii2", "extension", "ActiveRecord", "ActiveQuery", "explicit", "behavior"],
   "license": "MIT",
   "authors": [
     {
@@ -12,11 +12,12 @@
   ],
   "require": {
     "php": ">=7.2.0",
-    "yiisoft/yii2": "~2.0.0"
+    "yiisoft/yii2": "~2.0.0",
+    "smoren/extended-exceptions-php": "1.0.0"
   },
   "autoload": {
     "psr-4": {
-      "Smoren\\Yii2\\ArrayStorage\\": "src"
+      "Smoren\\Yii2\\ActiveRecordExplicit\\": "src"
     }
   },
   "config": {
