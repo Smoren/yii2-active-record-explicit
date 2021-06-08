@@ -25,31 +25,4 @@ abstract class ActiveRecordWrapper extends BaseWrapper
     {
         return $this->item->isNewRecord;
     }
-
-    /**
-     * Сохраняет обернутый элемент
-     * @return BaseWrapper
-     * @throws DbException
-     */
-    public function save(): BaseWrapper
-    {
-        $this->item->save();
-        return $this;
-    }
-
-    /**
-     * Удаляет обернутый элемент
-     * @return ActiveRecordWrapper
-     * @throws DbException
-     * @throws LogicException
-     * @throws Throwable
-     * @throws StaleObjectException
-     */
-    public function delete(): BaseWrapper
-    {
-        $this->checkIsSaved();
-        $this->item->delete();
-
-        return $this;
-    }
 }

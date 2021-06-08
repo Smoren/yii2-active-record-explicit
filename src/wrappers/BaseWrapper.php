@@ -4,6 +4,9 @@ namespace Smoren\Yii2\ActiveRecordExplicit\wrappers;
 
 
 use Smoren\ExtendedExceptions\LogicException;
+use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
+use Throwable;
+use yii\db\StaleObjectException;
 
 /**
  * Интерфейс для обертки
@@ -22,18 +25,6 @@ abstract class BaseWrapper
      * @return BaseWrapper
      */
     abstract public static function create(array $data, bool $save = false): self;
-
-    /**
-     * Сохраняет обернутый элемент
-     * @return BaseWrapper
-     */
-    abstract public function save(): self;
-
-    /**
-     * Удаляет обернутый элемент
-     * @return BaseWrapper
-     */
-    abstract public function delete(): self;
 
     /**
      * Показывает, новый ли объект
@@ -90,6 +81,30 @@ abstract class BaseWrapper
         }
 
         return $result;
+    }
+
+    /**
+     * Сохраняет обернутый элемент
+     * @return BaseWrapper
+     */
+    public function save(): BaseWrapper
+    {
+        $this->item->save();
+        return $this;
+    }
+
+    /**
+     * Удаляет обернутый элемент
+     * @return ActiveRecordWrapper
+     * @throws LogicException
+     * @throws Throwable
+     */
+    public function delete(): BaseWrapper
+    {
+        $this->checkIsSaved();
+        $this->item->delete();
+
+        return $this;
     }
 
     /**

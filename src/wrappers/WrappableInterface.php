@@ -8,42 +8,14 @@ namespace Smoren\Yii2\ActiveRecordExplicit\wrappers;
 interface WrappableInterface
 {
     /**
-     * Создание сущности
-     * @param array $data
-     * @param bool $save
-     * @return static
-     */
-    public static function create(array $data, bool $save = false): self;
-
-    /**
-     * Оборачивает сущность
-     * @param WrappableInterface $item Объект AR модели для оборачивания
-     * @return WrappableInterface
-     */
-    public static function wrapItem(WrappableInterface $item): self;
-
-    /**
-     * Оборачивает коллекцию
-     * @param WrappableInterface[] $collection Список объектоы AR моделрй для оборачивания
-     * @return BaseWrapper[]
-     */
-    public static function wrapCollection(array $collection): array;
-
-    /**
      * Сохранение сущности
-     * @return $this
+     * @return mixed
      */
-    public function save(): self;
-
-    /**
-     * Проверка на то, новая ли сущность
-     * @return bool
-     */
-    public function isNewRecord(): bool;
+    public function save();
 
     /**
      * Удаление сущности
      * @return mixed
      */
-    public function delete(): self;
+    public function delete();
 }

@@ -7,6 +7,7 @@ namespace Smoren\Yii2\ActiveRecordExplicit\models;
 use DateTime;
 use Smoren\ExtendedExceptions\BadDataException;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
+use Smoren\Yii2\ActiveRecordExplicit\wrappers\WrappableInterface;
 use Throwable;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
@@ -14,7 +15,7 @@ use yii\helpers\ArrayHelper;
 /**
  * Класс для AR модели текущего приложения
  */
-abstract class ActiveRecord extends \yii\db\ActiveRecord
+abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInterface
 {
     protected $hasDirtyFieldsToUpdate = false;
 
