@@ -4,7 +4,7 @@
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
 use Closure;
-use Smoren\Yii2\ActiveRecordExplicit\models\exceptions\DbException;
+use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Throwable;
 use Yii;
 use yii\db\ActiveRecord;

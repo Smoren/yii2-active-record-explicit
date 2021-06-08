@@ -6,7 +6,7 @@ namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
 use DateTime;
 use Smoren\ExtendedExceptions\BadDataException;
-use Smoren\Yii2\ActiveRecordExplicit\models\exceptions\DbException;
+use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Throwable;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
