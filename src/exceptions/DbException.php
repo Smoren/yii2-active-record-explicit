@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Smoren\Yii2\ActiveRecordExplicit\models\exceptions;
+namespace Smoren\Yii2\ActiveRecordExplicit\exceptions;
 
 
 use Smoren\ExtendedExceptions\BaseException;
