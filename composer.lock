@@ -32,7 +32,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
@@ -50,7 +50,7 @@
             "version": "v1.3.2",
             "source": {
                 "type": "git",
-                "url": "git@github.com:bestiejs/punycode.js.git",
+                "url": "https://github.com/bestiejs/punycode.js.git",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
             },
             "dist": {
@@ -65,7 +65,7 @@
             "version": "2.0.7.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:yiisoft/jquery-pjax.git",
+                "url": "https://github.com/yiisoft/jquery-pjax.git",
                 "reference": "aef7b953107264f00234902a3880eb50dafc48be"
             },
             "dist": {
@@ -139,56 +139,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "support": {
-                "issues": "https://github.com/cebe/markdown/issues",
-                "source": "https://github.com/cebe/markdown"
-            },
             "time": "2018-03-26T11:24:36+00:00"
-        },
-        {
-            "name": "dastanaron/yii2-translit",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dastanaron/yii2-translit.git",
-                "reference": "635737e01a2abd047c86e1e95c4b042b3f1c1846"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dastanaron/yii2-translit/zipball/635737e01a2abd047c86e1e95c4b042b3f1c1846",
-                "reference": "635737e01a2abd047c86e1e95c4b042b3f1c1846",
-                "shasum": ""
-            },
-            "type": "extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "dastanaron\\translit\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "dastanaron",
-                    "email": "flow199@yandex.ru"
-                }
-            ],
-            "description": "Transliteration symbols rus-en and en-rus",
-            "keywords": [
-                "extension"
-            ],
-            "support": {
-                "issues": "https://github.com/dastanaron/yii2-translit/issues",
-                "source": "https://github.com/dastanaron/yii2-translit/tree/1.0.0"
-            },
-            "time": "2017-10-12T09:28:48+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -238,10 +189,6 @@
             "keywords": [
                 "html"
             ],
-            "support": {
-                "issues": "https://github.com/ezyang/htmlpurifier/issues",
-                "source": "https://github.com/ezyang/htmlpurifier/tree/master"
-            },
             "time": "2020-06-29T00:56:53+00:00"
         },
         {
@@ -250,18 +197,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Smoren/extended-exceptions-php.git",
-                "reference": "fdb9fd4d224457ccbfa69ce4b33a534242a07465"
+                "reference": "a3465eb571d0f20ec775b10e75512f162a448745"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Smoren/extended-exceptions-php/zipball/fdb9fd4d224457ccbfa69ce4b33a534242a07465",
-                "reference": "fdb9fd4d224457ccbfa69ce4b33a534242a07465",
+                "url": "https://api.github.com/repos/Smoren/extended-exceptions-php/zipball/a3465eb571d0f20ec775b10e75512f162a448745",
+                "reference": "a3465eb571d0f20ec775b10e75512f162a448745",
                 "shasum": ""
             },
             "require": {
-                "dastanaron/yii2-translit": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
                 "php": ">=7.2.0"
             },
             "type": "library",
@@ -284,24 +228,20 @@
             "keywords": [
                 "exception"
             ],
-            "support": {
-                "issues": "https://github.com/Smoren/extended-exceptions-php/issues",
-                "source": "https://github.com/Smoren/extended-exceptions-php/tree/1.0.0"
-            },
-            "time": "2020-11-24T13:06:14+00:00"
+            "time": "2020-11-24T13:40:08+00:00"
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.39.3",
+            "version": "2.0.42.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "7c3b93b57e568509a7cb5cef826d8c424a779f3f"
+                "reference": "976e2e892af4df933831b5e0a05d0acf4b173d98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7c3b93b57e568509a7cb5cef826d8c424a779f3f",
-                "reference": "7c3b93b57e568509a7cb5cef826d8c424a779f3f",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/976e2e892af4df933831b5e0a05d0acf4b173d98",
+                "reference": "976e2e892af4df933831b5e0a05d0acf4b173d98",
                 "shasum": ""
             },
             "require": {
@@ -388,13 +328,6 @@
                 "framework",
                 "yii2"
             ],
-            "support": {
-                "forum": "http://www.yiiframework.com/forum/",
-                "irc": "irc://irc.freenode.net/yii",
-                "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-                "source": "https://github.com/yiisoft/yii2",
-                "wiki": "http://www.yiiframework.com/wiki/"
-            },
             "funding": [
                 {
                     "url": "https://github.com/yiisoft",
@@ -409,7 +342,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-23T19:17:58+00:00"
+            "time": "2021-05-06T11:44:35+00:00"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -464,13 +397,6 @@
                 "extension installer",
                 "yii2"
             ],
-            "support": {
-                "forum": "http://www.yiiframework.com/forum/",
-                "irc": "irc://irc.freenode.net/yii",
-                "issues": "https://github.com/yiisoft/yii2-composer/issues",
-                "source": "https://github.com/yiisoft/yii2-composer",
-                "wiki": "http://www.yiiframework.com/wiki/"
-            },
             "funding": [
                 {
                     "url": "https://github.com/yiisoft",
@@ -498,5 +424,5 @@
         "php": ">=7.2.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "1.1.0"
 }
