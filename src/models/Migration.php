@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Smoren\Yii2\Microcore\base;
+namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
 use yii\base\NotSupportedException;
 use yii\db\ColumnSchemaBuilder;
