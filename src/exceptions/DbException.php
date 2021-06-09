@@ -4,13 +4,13 @@
 namespace Smoren\Yii2\ActiveRecordExplicit\exceptions;
 
 
-use Smoren\ExtendedExceptions\BaseException;
+use Smoren\ExtendedExceptions\BadDataException;
 
 /**
  * Class DbException
  * @package Smoren\Yii2\ActiveRecordExplicit
  */
-class DbException extends BaseException
+class DbException extends BadDataException
 {
     const STATUS_UNKNOWN = -1;
     const STATUS_EMPTY_RESULT = 1;
