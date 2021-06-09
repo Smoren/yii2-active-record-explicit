@@ -8,7 +8,6 @@ use yii\db\ColumnSchemaBuilder;
 
 /**
  * Class Migration
- * @package Smoren\Yii2\Microcore\base
  */
 class Migration extends \yii\db\Migration
 {

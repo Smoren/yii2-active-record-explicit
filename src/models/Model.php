@@ -16,9 +16,7 @@ abstract class Model extends \yii\base\Model
     }
 
     /**
-     * @param array $data
-     * @param null $formName
-     * @return bool|void
+     * @inheritDoc
      */
     public function load($data, $formName = null)
     {
@@ -33,5 +31,7 @@ abstract class Model extends \yii\base\Model
         }
 
         parent::load($cleanParams, $formName);
+
+        return true;
     }
 }
