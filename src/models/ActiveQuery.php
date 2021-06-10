@@ -130,7 +130,7 @@ class ActiveQuery extends \yii\db\ActiveQuery
     protected function checkSingleResult(array &$result): self
     {
         if(!sizeof($result)) {
-            throw new DbException("no rows found for one for {$this->modelClass}", DbException::STATUS_EMPTY_RESULT, null, ['error' => 'Запись не найдена']);
+            throw new DbException("no rows found for one for {$this->modelClass}", DbException::STATUS_EMPTY_RESULT);
         }
         if(sizeof($result) > 1) {
             throw new DbException('multiple rows found for one', DbException::STATUS_REDUDANT_RESULT);
