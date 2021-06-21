@@ -3,8 +3,10 @@
 
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
+use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use yii\base\NotSupportedException;
 use yii\db\ColumnSchemaBuilder;
+use yii\db\Expression;
 
 /**
  * Class Migration
@@ -72,5 +74,28 @@ class Migration extends \yii\db\Migration
     public function name()
     {
         return $this->string(255)->notNull();
+    }
+
+    /**
+     * @return ColumnSchemaBuilder
+     */
+    public function createdAt()
+    {
+        switch($this->db->driverName) {
+            case 'mysql':
+                return $this->bigInteger()->notNull()->defaultValue(new Expression('unix_timestamp()'));
+            case 'pgsql':
+                return $this->bigInteger()->notNull()->defaultValue(new Expression('extract(epoch from now())::INTEGER'));
+            default:
+                throw new DbException("unknown driver {$this->db->driverName}", 1);
+        }
+    }
+
+    /**
+     * @return ColumnSchemaBuilder
+     */
+    public function updatedAt()
+    {
+         return $this->bigInteger();
     }
 }
