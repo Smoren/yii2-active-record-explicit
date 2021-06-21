@@ -41,16 +41,28 @@ class Migration extends \yii\db\Migration
     /**
      * @return ColumnSchemaBuilder
      */
-    public function alias()
+    public function alias(bool $unique = true)
     {
-        return $this->string(32)->notNull()->unique();
+        $result = $this->string(32)->notNull();
+
+        if($unique) {
+            $result = $result->unique();
+        }
+
+        return $result;
     }
 
     /**
      * @return ColumnSchemaBuilder
      */
-    public function longAlias()
+    public function longAlias(bool $unique = true)
     {
-        return $this->string(255)->notNull()->unique();
+        $result = $this->string(255)->notNull();
+
+        if($unique) {
+            $result = $result->unique();
+        }
+
+        return $result;
     }
 }
