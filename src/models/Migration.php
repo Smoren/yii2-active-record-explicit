@@ -37,4 +37,20 @@ class Migration extends \yii\db\Migration
     {
         return $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid');
     }
+
+    /**
+     * @return ColumnSchemaBuilder
+     */
+    public function alias()
+    {
+        return $this->string(32)->notNull()->unique();
+    }
+
+    /**
+     * @return ColumnSchemaBuilder
+     */
+    public function longAlias()
+    {
+        return $this->string(255)->notNull()->unique();
+    }
 }
