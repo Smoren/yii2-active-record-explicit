@@ -78,6 +78,7 @@ class Migration extends \yii\db\Migration
 
     /**
      * @return ColumnSchemaBuilder
+     * @throws NotSupportedException
      */
     public function createdAt()
     {
@@ -87,7 +88,7 @@ class Migration extends \yii\db\Migration
             case 'pgsql':
                 return $this->bigInteger()->notNull()->defaultValue(new Expression('extract(epoch from now())::INTEGER'));
             default:
-                throw new DbException("unknown driver {$this->db->driverName}", 1);
+                throw new NotSupportedException("unknown driver {$this->db->driverName}", 1);
         }
     }
 
