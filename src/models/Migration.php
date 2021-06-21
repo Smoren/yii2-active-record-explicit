@@ -65,4 +65,12 @@ class Migration extends \yii\db\Migration
 
         return $result;
     }
+
+    /**
+     * @return ColumnSchemaBuilder
+     */
+    public function name()
+    {
+        return $this->string(255)->notNull();
+    }
 }
