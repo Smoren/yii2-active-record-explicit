@@ -121,11 +121,20 @@ abstract class BaseWrapper
     }
 
     /**
+     * @return $this
+     */
+    protected function init(): self
+    {
+        return $this;
+    }
+
+    /**
      * BaseWrapper constructor
      * @param WrappableInterface $item Объект AR модели для оборачивания
      */
     public function __construct(WrappableInterface $item)
     {
         $this->item = $item;
+        $this->init();
     }
 }
