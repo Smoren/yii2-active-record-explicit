@@ -13,6 +13,18 @@ abstract class Model extends \yii\base\Model
     protected $statusCode = 200;
 
     /**
+     * @param array $input
+     * @return static
+     */
+    public static function create(array $input): self
+    {
+        $form = new static();
+        $form->load($input);
+
+        return $form;
+    }
+
+    /**
      * @inheritdoc
      */
     public function formName()
