@@ -21,7 +21,7 @@ abstract class BaseWrapper
      * Создает новый экземпляр сущности и оборачивает ее
      * @param array $data данные для сохранения
      * @param bool $save Нужно ли сохранять в БД
-     * @return BaseWrapper
+     * @return static
      */
     abstract public static function create(array $data, bool $save = false): self;
 
@@ -60,7 +60,7 @@ abstract class BaseWrapper
     /**
      * Оборачивает сущность
      * @param WrappableInterface $item Объект AR модели для оборачивания
-     * @return BaseWrapper
+     * @return static
      */
     public static function wrapItem(WrappableInterface $item): self
     {
@@ -70,7 +70,7 @@ abstract class BaseWrapper
     /**
      * Оборачивает коллекцию
      * @param WrappableInterface[] $collection Список объектоы AR моделрй для оборачивания
-     * @return BaseWrapper[]
+     * @return static[]
      */
     public static function wrapCollection(array $collection): array
     {
@@ -84,9 +84,9 @@ abstract class BaseWrapper
 
     /**
      * Сохраняет обернутый элемент
-     * @return BaseWrapper
+     * @return static
      */
-    public function save(): BaseWrapper
+    public function save(): self
     {
         $this->item->save();
         return $this;
@@ -94,11 +94,11 @@ abstract class BaseWrapper
 
     /**
      * Удаляет обернутый элемент
-     * @return ActiveRecordWrapper
+     * @return static
      * @throws LogicException
      * @throws Throwable
      */
-    public function delete(): BaseWrapper
+    public function delete(): self
     {
         $this->checkIsSaved();
         $this->item->delete();
@@ -108,7 +108,7 @@ abstract class BaseWrapper
 
     /**
      * Проверяет, была ли обернутая сущность сохранена и/или не удалена
-     * @return BaseWrapper
+     * @return static
      * @throws LogicException
      */
     public function checkIsSaved(): self
