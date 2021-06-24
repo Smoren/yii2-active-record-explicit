@@ -14,10 +14,10 @@ class FormValidator
      * @param int $code
      * @param string $message
      */
-    public static function validate(Model $form, string $exceptionClass, int $code, string $message = "validation error")
+    public static function validate(Model $form, string $exceptionClass, string $message = "validation error", ?int $code = null)
     {
         if(!$form->validate()) {
-            throw new $exceptionClass($message, $code, null, $form->errors);
+            throw new $exceptionClass($message, $code ?? $form->getStatusCode(), null, $form->errors);
         }
     }
 }

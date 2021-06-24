@@ -8,6 +8,11 @@ namespace Smoren\Yii2\ActiveRecordExplicit\models;
 abstract class Model extends \yii\base\Model
 {
     /**
+     * @var int
+     */
+    protected $statusCode = 200;
+
+    /**
      * @inheritdoc
      */
     public function formName()
@@ -33,5 +38,27 @@ abstract class Model extends \yii\base\Model
         parent::load($cleanParams, $formName);
 
         return true;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return $this->getStatusCode();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validate($attributeNames = null, $clearErrors = true)
+    {
+        $result = parent::validate($attributeNames, $clearErrors);
+
+        if(!$result) {
+            $this->statusCode = 406;
+        }
+
+        return $result;
     }
 }
