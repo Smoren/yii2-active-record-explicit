@@ -71,6 +71,9 @@ abstract class Model extends \yii\base\Model
         return $result;
     }
 
+    /**
+     * @return $this
+     */
     protected function updateStatusCode(): self
     {
         if(count($this->errors)) {
