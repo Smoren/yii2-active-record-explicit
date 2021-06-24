@@ -57,7 +57,7 @@ abstract class Model extends \yii\base\Model
      */
     public function getStatusCode(): int
     {
-        return $this->getStatusCode();
+        return $this->statusCode;
     }
 
     /**
