@@ -54,11 +54,19 @@ abstract class Model extends \yii\base\Model
     public function validate($attributeNames = null, $clearErrors = true)
     {
         $result = parent::validate($attributeNames, $clearErrors);
-
-        if(!$result) {
-            $this->statusCode = 406;
-        }
+        $this->updateStatusCode();
 
         return $result;
+    }
+
+    protected function updateStatusCode(): self
+    {
+        if(count($this->errors)) {
+            $this->statusCode = 406;
+        } else {
+            $this->statusCode = 200;
+        }
+
+        return $this;
     }
 }
