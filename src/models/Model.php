@@ -13,6 +13,11 @@ abstract class Model extends \yii\base\Model
     protected $statusCode = 200;
 
     /**
+     * @var string[]
+     */
+    protected $dirtyAttributes = [];
+
+    /**
      * @param array $input
      * @return static
      */
@@ -33,6 +38,22 @@ abstract class Model extends \yii\base\Model
     }
 
     /**
+     * @return array
+     */
+    public function getLoadedAttributes(): array
+    {
+        $result = [];
+
+        foreach($this->attributes as $attr => $value) {
+            if($value !== null || isset($this->dirtyAttributes[$attr])) {
+                $result[$attr] = $value;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * @inheritDoc
      */
     public function load($data, $formName = null)
@@ -45,6 +66,7 @@ abstract class Model extends \yii\base\Model
                 continue;
             }
             $cleanParams[$key] = $data[$key];
+            $this->dirtyAttributes[$key] = $key;
         }
 
         parent::load($cleanParams, $formName);
