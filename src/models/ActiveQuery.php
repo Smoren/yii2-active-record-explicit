@@ -19,6 +19,11 @@ use yii\db\Transaction;
 class ActiveQuery extends \yii\db\ActiveQuery
 {
     /**
+     * @var ActiveRecord::class
+     */
+    public $modelClass;
+
+    /**
      * Выбирает одну запись из полученного результата.
      * В случае, если записей несколько будет выбрашено исключение.
      * В случае, если записей нет, то будет выбрашено исключение.
@@ -64,7 +69,18 @@ class ActiveQuery extends \yii\db\ActiveQuery
      */
     public function byId($id): self
     {
-        return $this->andWhere(['id' => $id]);
+        return $this->andWhere([$this->aliasColumn('id') => $id]);
+    }
+
+    /**
+     * Подставляет алиас таблицы к названию колонки
+     * @param string $columnName
+     * @return string
+     */
+    public function aliasColumn(string $columnName): string
+    {
+        [$tableName, $alias] = $this->getTableNameAndAlias();
+        return "{$alias}.{$columnName}";
     }
 
     /**
