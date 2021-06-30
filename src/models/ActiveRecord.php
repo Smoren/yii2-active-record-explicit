@@ -80,7 +80,6 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     /**
      * Удаление записи из БД.
      * В случае невозможности удалить запись будет выброшено исключение.
-     * @inheritdoc
      * @return false|int
      * @throws DbException
      */
