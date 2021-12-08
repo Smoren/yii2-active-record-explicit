@@ -9,6 +9,7 @@ use Smoren\ExtendedExceptions\BadDataException;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Smoren\Yii2\ActiveRecordExplicit\wrappers\WrappableInterface;
 use Throwable;
+use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 
@@ -61,20 +62,28 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      */
     public function save($runValidation = true, $attributeNames = null)
     {
-        // TODO применить needUpdate()?
         $errorMessage = 'cannot save instance';
+        $tr = Yii::$app->db->beginTransaction();
         try {
             if(!($result = parent::save($runValidation, $attributeNames))) {
-                throw new DbException($errorMessage, DbException::STATUS_CANNOT_SAVE_INSTANCE, null, $this->errors);
+                throw new DbException(
+                    $errorMessage, DbException::STATUS_CANNOT_SAVE_INSTANCE, null, $this->errors
+                );
             }
+            $tr->commit();
+
+            return $result;
+        } catch(DbException $e) {
+            $tr->rollBack();
+            throw $e;
         } catch(Throwable $e) {
+            $tr->rollBack();
             throw new DbException(
                 $errorMessage, DbException::STATUS_UNKNOWN, $e, $this->errors, [
                     'message' => $e->getMessage(),
                 ]
             );
         }
-        return $result;
     }
 
     /**
