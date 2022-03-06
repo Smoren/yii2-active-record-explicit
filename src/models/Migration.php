@@ -135,4 +135,20 @@ class Migration extends \yii\db\Migration
 
         parent::addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete, $update);
     }
+
+    /**
+     * @param string|null $name
+     * @inheritDoc
+     */
+    public function addPrimaryKey($name, $table, $columns)
+    {
+        if($name === null) {
+            $name = 'pk-'
+                .$table
+                .'-'
+                .(is_array($columns) ? implode('-', $columns) : $columns);
+        }
+
+        parent::addPrimaryKey($name, $table, $columns);
+    }
 }
