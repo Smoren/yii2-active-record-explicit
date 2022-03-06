@@ -99,4 +99,40 @@ class Migration extends \yii\db\Migration
     {
          return $this->bigInteger();
     }
+
+    /**
+     * @param string|null $name
+     * @inheritDoc
+     */
+    public function createIndex($name, $table, $columns, $unique = false)
+    {
+        if($name === null) {
+            $name = 'idx-'
+                .$table
+                .'-'
+                .(is_array($columns) ? implode('-', $columns) : $columns);
+        }
+
+        parent::createIndex($name, $table, $columns, $unique);
+    }
+
+    /**
+     * @param string|null $name
+     * @inheritDoc
+     */
+    public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete = null, $update = null)
+    {
+        if($name === null) {
+            $name = 'fk-'
+                .$table
+                .'-'
+                .(is_array($columns) ? implode('-', $columns) : $columns)
+                .'-'
+                .$refTable
+                .'-'
+                .(is_array($refColumns) ? implode('-', $refColumns) : $refColumns);
+        }
+
+        parent::addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete, $update);
+    }
 }
