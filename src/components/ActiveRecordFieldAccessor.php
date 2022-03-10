@@ -117,6 +117,22 @@ class ActiveRecordFieldAccessor
     }
 
     /**
+     * @return bool
+     */
+    public function isDirty(): bool
+    {
+        return array_key_exists($this->fieldName, $this->model->getDirtyAttributes());
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
+    }
+
+    /**
      * @param callable|null $callback
      * @return mixed|null
      */
