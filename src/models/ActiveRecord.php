@@ -4,13 +4,12 @@
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
 
-use DateTime;
 use Smoren\ExtendedExceptions\BadDataException;
+use Smoren\Yii2\ActiveRecordExplicit\behaviors\TimestampBehavior;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Smoren\Yii2\ActiveRecordExplicit\wrappers\WrappableInterface;
 use Throwable;
 use Yii;
-use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -18,8 +17,14 @@ use yii\helpers\ArrayHelper;
  */
 abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInterface
 {
+    /**
+     * @var bool
+     */
     protected $hasDirtyFieldsToUpdate = false;
 
+    /**
+     * @inheritDoc
+     */
     public function behaviors(): array
     {
         return ArrayHelper::merge(
@@ -27,9 +32,6 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
             [
                 'timestamp' => [
                     'class' => TimestampBehavior::class,
-                    'createdAtAttribute' => $this->hasAttribute('created_at') ? 'created_at' : false,
-                    'updatedAtAttribute' => $this->hasAttribute('updated_at') ? 'updated_at' : false,
-                    'value' => (new DateTime())->getTimestamp(),
                 ],
             ]
         );
