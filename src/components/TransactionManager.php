@@ -70,11 +70,13 @@ class TransactionManager
             $this->start();
         }
 
-        return new TransactionManager(
+        $subTransaction = new TransactionManager(
             $this->connection,
             $commitOnDestruct ?? $this->commitOnDestruct,
             $transactionType ?? $this->transactionType
         );
+
+        return $subTransaction->start();
     }
 
     /**
