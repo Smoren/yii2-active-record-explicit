@@ -59,6 +59,25 @@ class TransactionManager
     }
 
     /**
+     * @param bool|null $commitOnDestruct
+     * @param string|null $transactionType
+     * @return $this
+     * @throws TransactionLogicException
+     */
+    public function initWithSubTransaction(?bool $commitOnDestruct, ?string $transactionType): self
+    {
+        if($this->isNotStarted()) {
+            $this->start();
+        }
+
+        return new TransactionManager(
+            $this->connection,
+            $commitOnDestruct ?? $this->commitOnDestruct,
+            $transactionType ?? $this->transactionType
+        );
+    }
+
+    /**
      * @return $this
      * @throws TransactionLogicException
      */
