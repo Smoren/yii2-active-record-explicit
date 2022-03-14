@@ -82,4 +82,13 @@ trait ActiveRecordTransactionalTrait
 
         return $result;
     }
+
+    /**
+     * @return bool
+     * @throws TransactionLogicException
+     */
+    public function isNewRecordInTransaction(): bool
+    {
+        return $this->transactionManager->isNewRecord();
+    }
 }

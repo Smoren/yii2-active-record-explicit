@@ -203,6 +203,22 @@ class TransactionManager
     }
 
     /**
+     * @return bool
+     * @throws TransactionLogicException
+     */
+    public function isNewRecord(): bool
+    {
+        if(!$this->hasLinkedModel()) {
+            throw new TransactionLogicException(
+                'no linked model',
+                TransactionLogicException::NO_LINKED_MODEL
+            );
+        }
+
+        return $this->modelIsNewRecordOnStart;
+    }
+
+    /**
      * @return $this
      * @throws TransactionLogicException
      */

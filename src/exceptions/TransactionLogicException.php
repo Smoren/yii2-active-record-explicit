@@ -14,5 +14,6 @@ class TransactionLogicException extends LogicException
 {
     const ALREADY_STARTED = 1;
     const NOT_STARTED_YET = 2;
-    const CANNOT_COMMIT_TRANSACTION = 10;
+    const CANNOT_COMMIT_TRANSACTION = 3;
+    const NO_LINKED_MODEL = 4;
 }
