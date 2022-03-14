@@ -5,6 +5,7 @@ namespace Smoren\Yii2\ActiveRecordExplicit\components;
 
 
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\TransactionLogicException;
+use Smoren\Yii2\ActiveRecordExplicit\models\ActiveRecord;
 use yii\db\Connection;
 use yii\db\Exception;
 use yii\db\Transaction;
@@ -27,6 +28,14 @@ class TransactionManager
      * @var string
      */
     protected $transactionType;
+    /**
+     * @var ActiveRecord|null
+     */
+    protected $model;
+    /**
+     * @var bool|null
+     */
+    protected $modelIsNewRecordOnStart;
 
     /**
      * TransactionalTrait constructor.
@@ -43,6 +52,17 @@ class TransactionManager
         $this->connection = $connection;
         $this->commitOnDestruct = $commitOnDestruct;
         $this->transactionType = $transactionType;
+    }
+
+    /**
+     * @param ActiveRecord $model
+     * @return $this
+     */
+    public function linkModel(ActiveRecord $model): self
+    {
+        $this->model = $model;
+        $this->modelIsNewRecordOnStart = $model->isNewRecord;
+        return $this;
     }
 
     /**
@@ -75,6 +95,10 @@ class TransactionManager
             $commitOnDestruct ?? $this->commitOnDestruct,
             $transactionType ?? $this->transactionType
         );
+
+        if($this->hasLinkedModel()) {
+            $subTransaction->linkModel($this->model);
+        }
 
         return $subTransaction->start();
     }
@@ -109,6 +133,10 @@ class TransactionManager
             );
         }
 
+        if($this->hasLinkedModel()) {
+            $this->modelIsNewRecordOnStart = $this->model->isNewRecord;
+        }
+
         $this->transaction = null;
 
         return $this;
@@ -124,6 +152,10 @@ class TransactionManager
 
         $this->transaction->rollBack();
         $this->transaction = null;
+
+        if($this->hasLinkedModel()) {
+            $this->model->isNewRecord = $this->modelIsNewRecordOnStart;
+        }
 
         return $this;
     }
@@ -200,6 +232,14 @@ class TransactionManager
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasLinkedModel(): bool
+    {
+        return $this->model !== null;
     }
 
     /**
