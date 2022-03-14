@@ -153,7 +153,7 @@ class TransactionManager
         $this->transaction->rollBack();
         $this->transaction = null;
 
-        if($this->hasLinkedModel()) {
+        if($this->hasLinkedModel() && (bool)$this->model->isNewRecord !== (bool)$this->modelIsNewRecordOnStart) {
             $this->model->isNewRecord = $this->modelIsNewRecordOnStart;
         }
 
