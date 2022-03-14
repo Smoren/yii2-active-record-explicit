@@ -248,6 +248,10 @@ class TransactionManager
     public function __destruct()
     {
         if($this->transaction instanceof Transaction) {
+            if($this->hasLinkedModel()) {
+                $this->model = null;
+            }
+
             if($this->commitOnDestruct) {
                 $this->commit();
             } else {
