@@ -70,6 +70,22 @@ trait ActiveRecordTransactionalTrait
     }
 
     /**
+     * @param bool $runValidation
+     * @param null $attributeNames
+     * @return bool
+     * @throws DbException
+     */
+    public function preSaveIfNewRecord(bool $runValidation = true, $attributeNames = null): bool
+    {
+        /** @var ActiveRecord $this */
+        if($this->isNewRecord) {
+            return parent::save($runValidation, $attributeNames);
+        }
+
+        return true;
+    }
+
+    /**
      * @return false|int
      * @throws DbException
      * @throws TransactionLogicException
