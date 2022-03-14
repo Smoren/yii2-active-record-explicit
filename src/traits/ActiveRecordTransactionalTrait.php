@@ -49,9 +49,9 @@ trait ActiveRecordTransactionalTrait
     {
         try {
             $result = parent::save($runValidation, $attributeNames);
-            $this->_transactionManager->commitIfStarted();
+            $this->getTransactionManager()->commitIfStarted();
         } catch(DbException $e) {
-            $this->_transactionManager->rollbackIfStarted();
+            $this->getTransactionManager()->rollbackIfStarted();
             throw $e;
         }
 
@@ -78,9 +78,9 @@ trait ActiveRecordTransactionalTrait
     {
         try {
             $result = parent::delete();
-            $this->_transactionManager->commitIfStarted();
+            $this->getTransactionManager()->commitIfStarted();
         } catch(DbException $e) {
-            $this->_transactionManager->rollbackIfStarted();
+            $this->getTransactionManager()->rollbackIfStarted();
             throw $e;
         }
 
@@ -93,6 +93,6 @@ trait ActiveRecordTransactionalTrait
      */
     public function isNewRecordInTransaction(): bool
     {
-        return $this->_transactionManager->isNewRecord();
+        return $this->getTransactionManager()->isNewRecord();
     }
 }
