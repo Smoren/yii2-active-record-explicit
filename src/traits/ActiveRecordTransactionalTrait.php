@@ -15,23 +15,27 @@ use Yii;
  * @package app\modules\securator\traits
  *
  * @property ActiveRecord $this
+ * @property TransactionManager $transactionManager
  */
 trait ActiveRecordTransactionalTrait
 {
     /**
      * @var TransactionManager
      */
-    protected $transactionManager;
+    protected $_transactionManager;
 
     /**
-     * {@inheritDoc}
+     * @return TransactionManager
      */
-    public function init(): void
+    public function getTransactionManager(): TransactionManager
     {
-        /** @var ActiveRecord $this */
-        parent::init();
-        $this->transactionManager = new TransactionManager(Yii::$app->db);
-        $this->transactionManager->linkModel($this);
+        if($this->_transactionManager === null) {
+            $this->_transactionManager = new TransactionManager(Yii::$app->db);
+            /** @var ActiveRecord $this */
+            $this->_transactionManager->linkModel($this);
+        }
+
+        return $this->_transactionManager;
     }
 
     /**
@@ -45,9 +49,9 @@ trait ActiveRecordTransactionalTrait
     {
         try {
             $result = parent::save($runValidation, $attributeNames);
-            $this->transactionManager->commitIfStarted();
+            $this->_transactionManager->commitIfStarted();
         } catch(DbException $e) {
-            $this->transactionManager->rollbackIfStarted();
+            $this->_transactionManager->rollbackIfStarted();
             throw $e;
         }
 
@@ -74,9 +78,9 @@ trait ActiveRecordTransactionalTrait
     {
         try {
             $result = parent::delete();
-            $this->transactionManager->commitIfStarted();
+            $this->_transactionManager->commitIfStarted();
         } catch(DbException $e) {
-            $this->transactionManager->rollbackIfStarted();
+            $this->_transactionManager->rollbackIfStarted();
             throw $e;
         }
 
@@ -89,6 +93,6 @@ trait ActiveRecordTransactionalTrait
      */
     public function isNewRecordInTransaction(): bool
     {
-        return $this->transactionManager->isNewRecord();
+        return $this->_transactionManager->isNewRecord();
     }
 }
