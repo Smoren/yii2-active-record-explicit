@@ -42,7 +42,7 @@ trait ActiveRecordTransactionalTrait
     public function save($runValidation = true, $attributeNames = null): bool
     {
         try {
-            $result = $this->preSave($runValidation, $attributeNames);
+            $result = parent::save($runValidation, $attributeNames);
             $this->transactionManager->commitIfStarted();
         } catch(DbException $e) {
             $this->transactionManager->rollbackIfStarted();
