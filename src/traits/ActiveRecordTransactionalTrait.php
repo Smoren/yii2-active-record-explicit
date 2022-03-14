@@ -28,8 +28,10 @@ trait ActiveRecordTransactionalTrait
      */
     public function init(): void
     {
+        /** @var ActiveRecord $this */
         parent::init();
         $this->transactionManager = new TransactionManager(Yii::$app->db);
+        $this->transactionManager->linkModel($this);
     }
 
     /**
