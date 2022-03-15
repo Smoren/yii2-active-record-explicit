@@ -226,7 +226,7 @@ class TransactionManager
     {
         if($this->isNotStarted()) {
             throw new TransactionLogicException(
-                'transaction already started',
+                'transaction is not started yet',
                 TransactionLogicException::NOT_STARTED_YET
             );
         }
@@ -242,7 +242,7 @@ class TransactionManager
     {
         if($this->isStarted()) {
             throw new TransactionLogicException(
-                'transaction already started',
+                'transaction is already started',
                 TransactionLogicException::ALREADY_STARTED
             );
         }
