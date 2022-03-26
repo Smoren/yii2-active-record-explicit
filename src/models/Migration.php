@@ -84,7 +84,7 @@ class Migration extends \yii\db\Migration
     {
         switch($this->db->driverName) {
             case 'mysql':
-                return $this->bigInteger()->notNull()->defaultValue(new Expression('unix_timestamp()'));
+                return $this->bigInteger()->null();
             case 'pgsql':
                 return $this->bigInteger()->notNull()->defaultValue(new Expression('extract(epoch from now())::INTEGER'));
             default:
