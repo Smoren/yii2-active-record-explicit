@@ -36,8 +36,12 @@ class ActiveQuery extends \yii\db\ActiveQuery
         $rows = $this->limit(2)->all($db);
         $backtrace = debug_backtrace();
 
-        if(count($backtrace) && strpos($backtrace[0]['file'], 'vendor/yiisoft/yii2/db/ActiveRelationTrait.php') !== false) {
-            return $rows[0] ?? null;
+        if(count($backtrace)) {
+            foreach($backtrace as $step) {
+                if(isset($step['file']) && strpos($step['file'], 'vendor/yiisoft/yii2/db/ActiveRelationTrait.php') !== false) {
+                    return $rows[0] ?? null;
+                }
+            }
         }
 
         $this->checkSingleResult($rows);
