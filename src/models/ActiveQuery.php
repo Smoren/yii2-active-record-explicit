@@ -177,9 +177,9 @@ class ActiveQuery extends \yii\db\ActiveQuery
      * @param $condition
      * @param bool $filter
      * @param array $params
-     * @return ActiveQuery
+     * @return static
      */
-    public function andWhereExtended($condition, bool $filter = false, array $params = [])
+    public function andWhereExtended($condition, bool $filter = false, array $params = []): self
     {
         if($filter) {
             return $this->andFilterWhere($condition);
@@ -192,9 +192,9 @@ class ActiveQuery extends \yii\db\ActiveQuery
      * @param $condition
      * @param bool $filter
      * @param array $params
-     * @return ActiveQuery
+     * @return static
      */
-    public function andHavingExtended($condition, bool $filter = false, array $params = [])
+    public function andHavingExtended($condition, bool $filter = false, array $params = []): self
     {
         if($filter) {
             return $this->andFilterHaving($condition);
