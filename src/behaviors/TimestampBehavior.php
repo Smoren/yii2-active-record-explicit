@@ -23,6 +23,10 @@ class TimestampBehavior extends Behavior
      */
     public $currentTime = null;
     /**
+     * @var bool $withMilliseconds
+     */
+    public $withMilliseconds = false;
+    /**
      * @var ActiveRecord
      */
     public $owner;
@@ -48,7 +52,7 @@ class TimestampBehavior extends Behavior
             $this->createdAtField !== null &&
             $this->owner->hasAttribute($this->createdAtField)
         ) {
-            $this->owner->{$this->createdAtField} = $this->currentTime ?? time();
+            $this->owner->{$this->createdAtField} = $this->currentTime ?? $this->getCurrentTime();
         }
     }
 
@@ -62,7 +66,16 @@ class TimestampBehavior extends Behavior
             $this->owner->hasAttribute($this->updatedAtField) &&
             count($this->owner->getDirtyAttributes())
         ) {
-            $this->owner->{$this->updatedAtField} = $this->currentTime ?? time();
+            $this->owner->{$this->updatedAtField} = $this->currentTime ?? $this->getCurrentTime();
         }
+    }
+
+    protected function getCurrentTime(): int
+    {
+        if($this->withMilliseconds) {
+            return (int)(microtime(true)*1000);
+        }
+
+        return time();
     }
 }

@@ -80,13 +80,18 @@ class Migration extends \yii\db\Migration
      * @return ColumnSchemaBuilder
      * @throws NotSupportedException
      */
-    public function createdAt()
+    public function createdAt(bool $withMilliseconds = false)
     {
         switch($this->db->driverName) {
             case 'mysql':
                 return $this->bigInteger()->null();
             case 'pgsql':
-                return $this->bigInteger()->notNull()->defaultValue(new Expression('extract(epoch from now())::INTEGER'));
+                if($withMilliseconds) {
+                    $expr = '(extract(epoch from now())*1000)::BIGINT';
+                } else {
+                    $expr = '(extract(epoch from now()))::BIGINT';
+                }
+                return $this->bigInteger()->notNull()->defaultValue(new Expression($expr));
             default:
                 throw new NotSupportedException("unknown driver {$this->db->driverName}", 1);
         }
