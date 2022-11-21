@@ -33,7 +33,9 @@ class ActiveDataProvider extends \yii\data\ActiveDataProvider
             $query->limit($pagination->getLimit())->offset($pagination->getOffset());
         }
         if(($sort = $this->getSort()) !== false) {
-            $query->addOrderBy($sort->getOrders());
+            if($query->orderBy === null || is_array($query->orderBy) && !count($query->orderBy)) {
+                $query->addOrderBy($sort->getOrders());
+            }
         }
 
         $result = [];
