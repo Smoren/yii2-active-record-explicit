@@ -1,16 +1,15 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
-use Closure;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
-use Throwable;
-use Yii;
 use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 use yii\db\BaseActiveRecord;
 use yii\db\Transaction;
+use Yii;
+use Closure;
+use Throwable;
 
 /**
  * Расширенный класс для составления запроса к БД, связанный с Active Record
@@ -28,7 +27,7 @@ class ActiveQuery extends \yii\db\ActiveQuery
      * В случае, если записей несколько будет выбрашено исключение.
      * В случае, если записей нет, то будет выбрашено исключение.
      * @param null $db
-     * @return array|void|\yii\db\ActiveRecord|null Экземпляр ActiveRecord модели
+     * @return array|ActiveRecord Экземпляр ActiveRecord модели
      * @throws DbException
      */
     public function one($db = null)
@@ -69,7 +68,7 @@ class ActiveQuery extends \yii\db\ActiveQuery
     /**
      * Фильтрует записи по ID
      * @param $id
-     * @return ActiveQuery
+     * @return static
      */
     public function byId($id): self
     {
@@ -117,9 +116,8 @@ class ActiveQuery extends \yii\db\ActiveQuery
      * В случае, если записей нет, то будет выбрашено исключение.
      * @param Closure $updater
      * @param null $db
-     * @return array|void|\yii\db\ActiveRecord|null Экземпляр ActiveRecord модели
+     * @return array|ActiveRecord Экземпляр ActiveRecord модели
      * @throws DbException
-     * @throws Throwable
      */
     public function oneForUpdate(Closure $updater, $db = null)
     {
@@ -136,9 +134,12 @@ class ActiveQuery extends \yii\db\ActiveQuery
             $transaction->commit();
 
             return $items[0];
-        } catch(DbException | Throwable $e) {
+        } catch(DbException $e) {
             $transaction->rollBack();
             throw $e;
+        } catch(Throwable $e) {
+            $transaction->rollBack();
+            throw new DbException('oneForUpdate error', DbException::STATUS_UNKNOWN, $e);
         }
     }
 

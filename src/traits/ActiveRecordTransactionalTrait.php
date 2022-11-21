@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\traits;
-
 
 use Smoren\Yii2\ActiveRecordExplicit\components\TransactionManager;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;

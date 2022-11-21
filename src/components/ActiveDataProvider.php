@@ -19,7 +19,7 @@ class ActiveDataProvider extends \yii\data\ActiveDataProvider
      * @inheritDoc
      * @throws InvalidConfigException
      */
-    protected function prepareModels()
+    protected function prepareModels(): array
     {
         if(!$this->query instanceof QueryInterface) {
             throw new InvalidConfigException('The "query" property must be an instance of a class that implements the QueryInterface e.g. yii\db\Query or its subclasses.');

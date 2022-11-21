@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\helpers;
-
 
 use Smoren\Yii2\ActiveRecordExplicit\models\Model;
 
@@ -11,8 +9,8 @@ class FormValidator
     /**
      * @param Model $form
      * @param string $exceptionClass
-     * @param int $code
      * @param string $message
+     * @param int|null $code
      */
     public static function validate(Model $form, string $exceptionClass, string $message = "validation error", ?int $code = null)
     {

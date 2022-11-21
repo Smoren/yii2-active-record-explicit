@@ -22,15 +22,16 @@ abstract class CollectionForm extends Model
     /**
      * @inheritDoc
      */
-    public function load($data, $formName = null)
+    public function load($data, $formName = null): bool
     {
         $this->storage = $data;
+        return true;
     }
 
     /**
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['storage'], 'required'],
@@ -41,7 +42,7 @@ abstract class CollectionForm extends Model
     /**
      * @param $attribute
      */
-    public function validateStorage($attribute)
+    public function validateStorage($attribute): void
     {
         $result = [];
         foreach($this->storage as $item) {
@@ -62,7 +63,7 @@ abstract class CollectionForm extends Model
     /**
      * @return array
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'storage' => 'Массив данных',

@@ -1,16 +1,14 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
-
 
 use Smoren\ExtendedExceptions\BadDataException;
 use Smoren\Yii2\ActiveRecordExplicit\behaviors\TimestampBehavior;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Smoren\Yii2\ActiveRecordExplicit\wrappers\WrappableInterface;
-use Throwable;
-use Yii;
 use yii\helpers\ArrayHelper;
+use Yii;
+use Throwable;
 
 /**
  * Класс для AR модели текущего приложения
@@ -40,7 +38,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     /**
      * Опеределяет название формы
      */
-    public function formName()
+    public function formName(): string
     {
         return '';
     }
@@ -49,7 +47,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      * Создает экземпляр запроса
      * @return ActiveQuery
      */
-    public static function find()
+    public static function find(): ActiveQuery
     {
         return new ActiveQuery(get_called_class());
     }
@@ -62,7 +60,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      * @return bool
      * @throws DbException
      */
-    public function save($runValidation = true, $attributeNames = null)
+    public function save($runValidation = true, $attributeNames = null): bool
     {
         $errorMessage = 'cannot save instance';
         $tr = Yii::$app->db->beginTransaction();
@@ -116,7 +114,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      * @param $condition
      * @return \yii\db\ActiveRecord|null
      */
-    public static function findOne($condition)
+    public static function findOne($condition): ?\yii\db\ActiveRecord
     {
         return parent::findOne($condition);
     }

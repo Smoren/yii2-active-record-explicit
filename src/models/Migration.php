@@ -1,9 +1,7 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
-use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use yii\base\NotSupportedException;
 use yii\db\ColumnSchemaBuilder;
 use yii\db\Expression;
@@ -17,7 +15,7 @@ class Migration extends \yii\db\Migration
      * @return ColumnSchemaBuilder
      * @throws NotSupportedException
      */
-    public function uuidPrimaryKey()
+    public function uuidPrimaryKey(): ColumnSchemaBuilder
     {
         return $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4()');
     }
@@ -26,7 +24,7 @@ class Migration extends \yii\db\Migration
      * @return ColumnSchemaBuilder
      * @throws NotSupportedException
      */
-    public function uuidAutoGen()
+    public function uuidAutoGen(): ColumnSchemaBuilder
     {
         return $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid NOT NULL DEFAULT uuid_generate_v4()');
     }
@@ -35,7 +33,7 @@ class Migration extends \yii\db\Migration
      * @return ColumnSchemaBuilder
      * @throws NotSupportedException
      */
-    public function uuid()
+    public function uuid(): ColumnSchemaBuilder
     {
         return $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid');
     }
@@ -43,7 +41,7 @@ class Migration extends \yii\db\Migration
     /**
      * @return ColumnSchemaBuilder
      */
-    public function alias(bool $unique = true)
+    public function alias(bool $unique = true): ColumnSchemaBuilder
     {
         $result = $this->string(32)->notNull();
 
@@ -57,7 +55,7 @@ class Migration extends \yii\db\Migration
     /**
      * @return ColumnSchemaBuilder
      */
-    public function longAlias(bool $unique = true)
+    public function longAlias(bool $unique = true): ColumnSchemaBuilder
     {
         $result = $this->string(255)->notNull();
 
@@ -71,7 +69,7 @@ class Migration extends \yii\db\Migration
     /**
      * @return ColumnSchemaBuilder
      */
-    public function name()
+    public function name(): ColumnSchemaBuilder
     {
         return $this->string(255)->notNull();
     }
@@ -80,7 +78,7 @@ class Migration extends \yii\db\Migration
      * @return ColumnSchemaBuilder
      * @throws NotSupportedException
      */
-    public function createdAt(bool $withMilliseconds = false)
+    public function createdAt(bool $withMilliseconds = false): ColumnSchemaBuilder
     {
         switch($this->db->driverName) {
             case 'mysql':
@@ -100,7 +98,7 @@ class Migration extends \yii\db\Migration
     /**
      * @return ColumnSchemaBuilder
      */
-    public function updatedAt()
+    public function updatedAt(): ColumnSchemaBuilder
     {
          return $this->bigInteger();
     }
@@ -109,7 +107,7 @@ class Migration extends \yii\db\Migration
      * @param string|null $name
      * @inheritDoc
      */
-    public function createIndex($name, $table, $columns, $unique = false)
+    public function createIndex($name, $table, $columns, $unique = false): void
     {
         if($name === null) {
             $name = 'idx-'
@@ -125,7 +123,7 @@ class Migration extends \yii\db\Migration
      * @param string|null $name
      * @inheritDoc
      */
-    public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete = null, $update = null)
+    public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete = null, $update = null): void
     {
         if($name === null) {
             $name = 'fk-'
@@ -145,7 +143,7 @@ class Migration extends \yii\db\Migration
      * @param string|null $name
      * @inheritDoc
      */
-    public function addPrimaryKey($name, $table, $columns)
+    public function addPrimaryKey($name, $table, $columns): void
     {
         if($name === null) {
             $name = 'pk-'

@@ -32,7 +32,7 @@ abstract class Model extends \yii\base\Model
     /**
      * @inheritdoc
      */
-    public function formName()
+    public function formName(): string
     {
         return '';
     }
@@ -56,7 +56,7 @@ abstract class Model extends \yii\base\Model
     /**
      * @inheritDoc
      */
-    public function load($data, $formName = null)
+    public function load($data, $formName = null): bool
     {
         $keys = array_keys($this->getAttributes());
 
@@ -85,7 +85,7 @@ abstract class Model extends \yii\base\Model
     /**
      * @inheritDoc
      */
-    public function validate($attributeNames = null, $clearErrors = true)
+    public function validate($attributeNames = null, $clearErrors = true): bool
     {
         $result = parent::validate($attributeNames, $clearErrors);
         $this->updateStatusCode();

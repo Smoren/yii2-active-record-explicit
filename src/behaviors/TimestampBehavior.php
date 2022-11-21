@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\behaviors;
-
 
 use yii\base\Behavior;
 use yii\db\ActiveRecord;

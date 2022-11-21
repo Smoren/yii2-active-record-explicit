@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\exceptions;
-
 
 use Smoren\ExtendedExceptions\BadDataException;
 

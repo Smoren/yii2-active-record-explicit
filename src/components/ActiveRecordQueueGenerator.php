@@ -19,8 +19,6 @@ class ActiveRecordQueueGenerator extends ActiveRecordGenerator
     /**
      * @return Generator
      * @throws DbException
-     * @throws Throwable
-     * @throws StaleObjectException
      */
     protected function &makeGenerator(): Generator
     {

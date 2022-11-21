@@ -2,7 +2,6 @@
 
 namespace Smoren\Yii2\ActiveRecordExplicit\wrappers;
 
-
 use Smoren\Yii2\ActiveRecordExplicit\models\ActiveRecord;
 use yii\base\Arrayable;
 
@@ -26,7 +25,7 @@ abstract class ActiveRecordWrapper extends BaseWrapper implements Arrayable
     /**
      * @inheritDoc
      */
-    public function fields()
+    public function fields(): array
     {
         return array_merge(array_keys($this->item->attributes));
     }
@@ -34,7 +33,7 @@ abstract class ActiveRecordWrapper extends BaseWrapper implements Arrayable
     /**
      * @inheritDoc
      */
-    public function extraFields()
+    public function extraFields(): array
     {
         return [];
     }
@@ -42,7 +41,7 @@ abstract class ActiveRecordWrapper extends BaseWrapper implements Arrayable
     /**
      * @inheritDoc
      */
-    public function toArray(array $fields = [], array $expand = [], $recursive = true)
+    public function toArray(array $fields = [], array $expand = [], $recursive = true): array
     {
         return $this->item->toArray();
     }

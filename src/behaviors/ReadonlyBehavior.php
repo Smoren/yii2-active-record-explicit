@@ -22,7 +22,7 @@ class ReadonlyBehavior extends Behavior
      * Список
      * @return array
      */
-    public function events()
+    public function events(): array
     {
         return [
             BaseActiveRecord::EVENT_BEFORE_INSERT => 'checkIt',
@@ -35,7 +35,7 @@ class ReadonlyBehavior extends Behavior
      * @param Event $event
      * @throws DbException
      */
-    public function checkIt(Event $event)
+    public function checkIt(Event $event): void
     {
         /** @var ActiveRecord $model */
         $model = $this->owner;
