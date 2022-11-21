@@ -71,6 +71,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
                 );
             }
             $tr->commit();
+            $this->hasDirtyFieldsToUpdate = false;
 
             return $result;
         } catch(DbException $e) {
