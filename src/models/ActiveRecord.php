@@ -23,7 +23,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     /**
      * @inheritDoc
      */
-    public function behaviors(): array
+    public function behaviors()
     {
         return ArrayHelper::merge(
             parent::behaviors(),
@@ -47,7 +47,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      * Создает экземпляр запроса
      * @return ActiveQuery
      */
-    public static function find(): ActiveQuery
+    public static function find()
     {
         return new ActiveQuery(get_called_class());
     }
@@ -114,7 +114,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      * @param $condition
      * @return \yii\db\ActiveRecord|null
      */
-    public static function findOne($condition): ?\yii\db\ActiveRecord
+    public static function findOne($condition)
     {
         return parent::findOne($condition);
     }
