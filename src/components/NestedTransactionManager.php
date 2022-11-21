@@ -62,11 +62,12 @@ class NestedTransactionManager
     }
 
     /**
+     * @param string $isolationLevel
      * @return Transaction
      */
-    public function start(): Transaction
+    public function start(string $isolationLevel = Transaction::READ_COMMITTED): Transaction
     {
-        $transaction = $this->pushDbTransaction();
+        $transaction = $this->pushDbTransaction($isolationLevel);
         $this->onStart(count($this->dbTransactions));
         return $transaction;
     }
@@ -223,11 +224,12 @@ class NestedTransactionManager
     }
 
     /**
+     * @param string $isolationLevel
      * @return Transaction
      */
-    protected function pushDbTransaction(): Transaction
+    protected function pushDbTransaction(string $isolationLevel): Transaction
     {
-        $transaction = $this->connection->beginTransaction();
+        $transaction = $this->connection->beginTransaction($isolationLevel);
         $this->dbTransactions[] = $transaction;
         return $transaction;
     }
