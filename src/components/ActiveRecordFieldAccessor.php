@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\components;
-
 
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\AccessorException;
 use yii\db\ActiveRecord;

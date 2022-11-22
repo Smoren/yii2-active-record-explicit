@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Smoren\Yii2\ActiveRecordExplicit\components;
-
 
 use Generator;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
