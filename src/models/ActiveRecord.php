@@ -23,7 +23,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     /**
      * @var bool
      */
-    protected $useTypecast = false;
+    protected $useTypecast = true;
 
     /**
      * @inheritDoc

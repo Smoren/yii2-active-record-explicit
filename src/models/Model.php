@@ -24,7 +24,7 @@ abstract class Model extends \yii\base\Model
     /**
      * @var bool
      */
-    protected $useTypecast = false;
+    protected $useTypecast = true;
 
     /**
      * {@inheritDoc}
