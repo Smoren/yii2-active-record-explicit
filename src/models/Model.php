@@ -2,8 +2,12 @@
 
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
+use Smoren\Yii2\ActiveRecordExplicit\behaviors\AttributeTypecastBehavior;
+
 /**
  * Класс для модели ввода данных для REST API
+ *
+ * @property-read array $loadedAttributes
  */
 abstract class Model extends \yii\base\Model
 {
@@ -16,6 +20,29 @@ abstract class Model extends \yii\base\Model
      * @var string[]
      */
     protected $dirtyAttributes = [];
+
+    /**
+     * @var bool
+     */
+    protected $useTypecast = false;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function behaviors(): array
+    {
+        $result = parent::behaviors();
+
+        if($this->useTypecast) {
+            $result['typecast'] = [
+                'class' => AttributeTypecastBehavior::class,
+                'typecastBeforeValidate' => true,
+                'strict' => true,
+            ];
+        }
+
+        return $result;
+    }
 
     /**
      * @param array $input

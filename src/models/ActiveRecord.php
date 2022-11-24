@@ -3,10 +3,10 @@
 namespace Smoren\Yii2\ActiveRecordExplicit\models;
 
 use Smoren\ExtendedExceptions\BadDataException;
+use Smoren\Yii2\ActiveRecordExplicit\behaviors\AttributeTypecastBehavior;
 use Smoren\Yii2\ActiveRecordExplicit\behaviors\TimestampBehavior;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Smoren\Yii2\ActiveRecordExplicit\wrappers\WrappableInterface;
-use yii\helpers\ArrayHelper;
 use Yii;
 use Throwable;
 
@@ -21,22 +21,34 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     protected $hasDirtyFieldsToUpdate = false;
 
     /**
+     * @var bool
+     */
+    protected $useTypecast = false;
+
+    /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                'timestamp' => [
-                    'class' => TimestampBehavior::class,
-                ],
-            ]
-        );
+        $result = parent::behaviors();
+
+        $result['timestamp'] = [
+            'class' => TimestampBehavior::class,
+        ];
+
+        if($this->useTypecast) {
+            $result['typecast'] = [
+                'class' => AttributeTypecastBehavior::class,
+                'typecastBeforeValidate' => true,
+                'strict' => true,
+            ];
+        }
+
+        return $result;
     }
 
     /**
-     * Опеределяет название формы
+     * Определяет название формы
      */
     public function formName(): string
     {
