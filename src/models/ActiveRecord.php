@@ -123,6 +123,18 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function refresh()
+    {
+        try {
+            return parent::refresh();
+        } catch(DbException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Поиск одной записи по составленному в $condition условию.
      * @param $condition
      * @return \yii\db\ActiveRecord|null
