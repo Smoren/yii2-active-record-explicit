@@ -175,6 +175,54 @@ class ActiveQuery extends \yii\db\ActiveQuery
     }
 
     /**
+     * @param string $columnName
+     * @param mixed $columnValue
+     * @param bool $filter
+     * @param array $params
+     * @return $this
+     */
+    public function addColumnWhereCondition(
+        string $columnName,
+        $columnValue,
+        bool $filter = false,
+        array $params = []
+    ): self
+    {
+        return $this->andWhereExtended([$this->aliasColumn($columnName) => $columnValue], $filter, $params);
+    }
+
+    /**
+     * @param string $operator
+     * @param string $columnName
+     * @param mixed $columnValue
+     * @param bool $filter
+     * @param array $params
+     * @return $this
+     */
+    public function addColumnOperatorCondition(
+        string $operator,
+        string $columnName,
+        $columnValue,
+        bool $filter = false,
+        array $params = []
+    ): self
+    {
+        if($filter && $columnValue === null) {
+            return $this;
+        }
+
+        if(is_array($columnValue)) {
+            $arguments = [$operator, $columnName];
+            foreach($columnValue as $value) {
+                $arguments[] = $value;
+            }
+            return $this->andWhere([$operator, $columnName, $arguments], $params);
+        }
+
+        return $this->andWhere([$operator, $columnName, $columnValue], $params);
+    }
+
+    /**
      * @param $condition
      * @param bool $filter
      * @param array $params
