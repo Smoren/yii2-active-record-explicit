@@ -53,7 +53,7 @@ class ActiveQuery extends \yii\db\ActiveQuery
      * @return array|ActiveRecord Экземпляр ActiveRecord модели
      * @throws DbException
      */
-    public function one(?Connection $db = null)
+    public function one($db = null)
     {
         $rows = $this->limit(2)->all($db);
         $backtrace = debug_backtrace();
@@ -78,7 +78,7 @@ class ActiveQuery extends \yii\db\ActiveQuery
      * @return ActiveRecord|array Экземпляр ActiveRecord модели
      * @throws DbException
      */
-    public function first(?Connection $db = null)
+    public function first($db = null)
     {
         $rows = $this->limit(1)->all($db);
         if(!sizeof($rows)) {

@@ -60,15 +60,6 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     }
 
     /**
-     * Создает экземпляр запроса
-     * @return ActiveQuery
-     */
-    public static function find()
-    {
-        return new ActiveQuery(get_called_class(), [], static::getConnectionManager());
-    }
-
-    /**
      * Занимается вставкой записи в БД. А также может обновить существующую запись.
      * В случае неуспешной вставки или обновления будет выброшено исключение.
      * @param bool $runValidation
