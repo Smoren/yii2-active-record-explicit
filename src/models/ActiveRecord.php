@@ -6,7 +6,11 @@ use Smoren\ExtendedExceptions\BadDataException;
 use Smoren\Yii2\ActiveRecordExplicit\behaviors\AttributeTypecastBehavior;
 use Smoren\Yii2\ActiveRecordExplicit\behaviors\TimestampBehavior;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
+use Smoren\Yii2\ActiveRecordExplicit\interfaces\DbConnectionManagerInterface;
 use Smoren\Yii2\ActiveRecordExplicit\wrappers\WrappableInterface;
+use yii\base\InvalidConfigException;
+use yii\db\Connection;
+use yii\di\NotInstantiableException;
 use Yii;
 use Throwable;
 
@@ -61,7 +65,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      */
     public static function find()
     {
-        return new ActiveQuery(get_called_class());
+        return new ActiveQuery(get_called_class(), [], static::getConnectionManager());
     }
 
     /**
@@ -75,7 +79,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     public function save($runValidation = true, $attributeNames = null): bool
     {
         $errorMessage = 'cannot save instance';
-        $tr = Yii::$app->db->beginTransaction();
+        $tr = static::getDb()->beginTransaction();
         try {
             if(!($result = parent::save($runValidation, $attributeNames))) {
                 throw new DbException(
@@ -158,8 +162,8 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
      */
     public function __set($name, $value)
     {
-        $this->hasDirtyFieldsToUpdate = true;
         parent::__set($name, $value);
+        $this->hasDirtyFieldsToUpdate = true;
     }
 
     /**
@@ -169,5 +173,32 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     public function needUpdate(): bool
     {
         return $this->hasDirtyFieldsToUpdate;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getDb(): Connection
+    {
+        if(($connectionManager = static::getConnectionManager()) !== null) {
+            return $connectionManager->getConnection(static::class);
+        }
+        return parent::getDb();
+    }
+
+    /**
+     * @return DbConnectionManagerInterface|null
+     */
+    public static function getConnectionManager(): ?DbConnectionManagerInterface
+    {
+        if(Yii::$container->has(DbConnectionManagerInterface::class)) {
+            try {
+                return Yii::$container->get(DbConnectionManagerInterface::class);
+            } catch(InvalidConfigException|NotInstantiableException $e) {
+                return null;
+            }
+        }
+
+        return null;
     }
 }
