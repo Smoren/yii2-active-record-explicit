@@ -43,11 +43,12 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     public function findAll(?callable $filter = null): array
     {
-        $this->activate();
-        $result = $this->find($filter)->all();
-        $this->deactivate();
-
-        return $result;
+        try {
+            $this->activate();
+            return $this->find($filter)->all();
+        } finally {
+            $this->deactivate();
+        }
     }
 
     /**
@@ -58,11 +59,12 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     public function findOne(?callable $filter = null)
     {
-        $this->activate();
-        $result = $this->find($filter)->one();
-        $this->deactivate();
-
-        return $result;
+        try {
+            $this->activate();
+            return $this->find($filter)->one();
+        } finally {
+            $this->deactivate();
+        }
     }
 
     /**
@@ -73,11 +75,12 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     public function findFirst(?callable $filter = null)
     {
-        $this->activate();
-        $result = $this->find($filter)->first();
-        $this->deactivate();
-
-        return $result;
+        try {
+            $this->activate();
+            return $this->find($filter)->first();
+        } finally {
+            $this->deactivate();
+        }
     }
 
     /**
@@ -103,9 +106,12 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     protected function saveModel(ActiveRecord $model): void
     {
-        $this->activate();
-        $model->save();
-        $this->deactivate();
+        try {
+            $this->activate();
+            $model->save();
+        } finally {
+            $this->deactivate();
+        }
     }
 
     /**
@@ -116,11 +122,12 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     protected function deleteModel(ActiveRecord $model): int
     {
-        $this->activate();
-        $result = $model->delete();
-        $this->deactivate();
-
-        return $result;
+        try {
+            $this->activate();
+            return $model->delete();
+        } finally {
+            $this->deactivate();
+        }
     }
 
     /**
@@ -130,9 +137,12 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     protected function refreshModel(ActiveRecord $model): void
     {
-        $this->activate();
-        $model->refresh();
-        $this->deactivate();
+        try {
+            $this->activate();
+            $model->refresh();
+        } finally {
+            $this->deactivate();
+        }
     }
 
     /**
