@@ -124,6 +124,18 @@ abstract class DbRepository implements DbRepositoryInterface
     }
 
     /**
+     * @param ActiveRecord $model
+     * @return void
+     * @throws DbConnectionManagerException
+     */
+    protected function refreshModel(ActiveRecord $model): void
+    {
+        $this->activate();
+        $model->refresh();
+        $this->deactivate();
+    }
+
+    /**
      * @return $this
      * @throws DbConnectionManagerException
      */
