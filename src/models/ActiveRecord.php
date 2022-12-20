@@ -66,6 +66,23 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     }
 
     /**
+     * @return string[]
+     */
+    public function attributes()
+    {
+        if(static::$denyDefaultConnection) {
+            preg_match_all(
+                '/@property[ \t]+[a-z\|]+[ \t]+\$([A-Za-z0-9_]+)/',
+                new \ReflectionClass(static::class),
+                $matches
+            );
+            return $matches[1];
+        }
+
+        return parent::attributes();
+    }
+
+    /**
      * Занимается вставкой записи в БД. А также может обновить существующую запись.
      * В случае неуспешной вставки или обновления будет выброшено исключение.
      * @param bool $runValidation
