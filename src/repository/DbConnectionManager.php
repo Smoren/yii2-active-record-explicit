@@ -56,26 +56,44 @@ class DbConnectionManager implements DbConnectionManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function attachRepository(DbRepositoryInterface $repository): void
+    public function attachRepository(DbRepositoryInterface $repository, bool $withRelations): void
     {
         $modelClass = $repository->getModelClass();
-        if(isset($this->repositoryMap[$modelClass])) {
-            throw new DbConnectionManagerException(
-                'attach duplicate',
-                DbConnectionManagerException::CANNOT_ATTACH_REPOSITORY,
-                null,
-                ['modelClass' => $modelClass]
-            );
-        }
+        $this->checkClassDetached($modelClass);
         $this->repositoryMap[$modelClass] = $repository;
+
+        if($withRelations) {
+            foreach($repository->getRelatedModelClasses() as $modelClass) {
+                $this->checkClassDetached($modelClass);
+                $this->repositoryMap[$modelClass] = $repository;
+            }
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    public function detachRepository(DbRepositoryInterface $repository): void
+    public function detachRepository(DbRepositoryInterface $repository, bool $withRelations): void
     {
         $modelClass = $repository->getModelClass();
+        $this->checkClassAttached($modelClass);
+        unset($this->repositoryMap[$modelClass]);
+
+        if($withRelations) {
+            foreach($repository->getRelatedModelClasses() as $modelClass) {
+                $this->checkClassAttached($modelClass);
+                unset($this->repositoryMap[$modelClass]);
+            }
+        }
+    }
+
+    /**
+     * @param string $modelClass
+     * @return void
+     * @throws DbConnectionManagerException
+     */
+    protected function checkClassAttached(string $modelClass): void
+    {
         if(!isset($this->repositoryMap[$modelClass])) {
             throw new DbConnectionManagerException(
                 'cannot detach not attached repository',
@@ -84,6 +102,22 @@ class DbConnectionManager implements DbConnectionManagerInterface
                 ['modelClass' => $modelClass]
             );
         }
-        unset($this->repositoryMap[$modelClass]);
+    }
+
+    /**
+     * @param string $modelClass
+     * @return void
+     * @throws DbConnectionManagerException
+     */
+    protected function checkClassDetached(string $modelClass): void
+    {
+        if(isset($this->repositoryMap[$modelClass])) {
+            throw new DbConnectionManagerException(
+                'attach duplicate',
+                DbConnectionManagerException::CANNOT_ATTACH_REPOSITORY,
+                null,
+                ['modelClass' => $modelClass]
+            );
+        }
     }
 }

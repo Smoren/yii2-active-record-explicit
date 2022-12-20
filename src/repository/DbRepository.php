@@ -83,6 +83,11 @@ abstract class DbRepository implements DbRepositoryInterface
         }
     }
 
+    public function getRelatedModelClasses(): array
+    {
+        return [];
+    }
+
     /**
      * @param callable|null $filter
      * @return ActiveQuery
@@ -146,22 +151,40 @@ abstract class DbRepository implements DbRepositoryInterface
     }
 
     /**
+     * @param callable $action
+     * @param bool $withRelations
+     * @return void
+     * @throws DbConnectionManagerException
+     */
+    protected function useConnection(callable $action, bool $withRelations = true): void
+    {
+        try {
+            $this->activate($withRelations);
+            $action();
+        } finally {
+            $this->deactivate();
+        }
+    }
+
+    /**
+     * @param bool $withRelations
      * @return $this
      * @throws DbConnectionManagerException
      */
-    protected function activate(): self
+    protected function activate(bool $withRelations = true): self
     {
-        $this->getConnectionManager()->attachRepository($this);
+        $this->getConnectionManager()->attachRepository($this, $withRelations);
         return $this;
     }
 
     /**
+     * @param bool $withRelations
      * @return $this
      * @throws DbConnectionManagerException
      */
-    protected function deactivate(): self
+    protected function deactivate(bool $withRelations = true): self
     {
-        $this->getConnectionManager()->detachRepository($this);
+        $this->getConnectionManager()->detachRepository($this, $withRelations);
         return $this;
     }
 

@@ -16,15 +16,17 @@ interface DbConnectionManagerInterface
 
     /**
      * @param DbRepositoryInterface $repository
+     * @param bool $withRelations
      * @return void
      * @throws DbConnectionManagerException
      */
-    public function attachRepository(DbRepositoryInterface $repository): void;
+    public function attachRepository(DbRepositoryInterface $repository, bool $withRelations): void;
 
     /**
      * @param DbRepositoryInterface $repository
+     * @param bool $withRelations
      * @return void
      * @throws DbConnectionManagerException
      */
-    public function detachRepository(DbRepositoryInterface $repository): void;
+    public function detachRepository(DbRepositoryInterface $repository, bool $withRelations): void;
 }
