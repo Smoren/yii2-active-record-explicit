@@ -80,7 +80,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
         try {
             if(!($result = parent::save($runValidation, $attributeNames))) {
                 throw new DbException(
-                    $errorMessage, DbException::STATUS_CANNOT_SAVE_INSTANCE, null, $this->errors
+                    $errorMessage, DbException::STATUS_CANNOT_SAVE_INSTANCE, null, $this->errors ?? []
                 );
             }
             $tr->commit();
@@ -93,7 +93,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
         } catch(Throwable $e) {
             $tr->rollBack();
             throw new DbException(
-                $errorMessage, DbException::STATUS_UNKNOWN, $e, $this->errors, [
+                $errorMessage, DbException::STATUS_UNKNOWN, $e, $this->errors ?? [], [
                     'message' => $e->getMessage(),
                 ]
             );
@@ -116,7 +116,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
             return parent::delete();
         } catch(Throwable $e) {
             throw new DbException(
-                $errorMessage, DbException::STATUS_CANNOT_DELETE_INSTANCE, $e, $this->errors, [
+                $errorMessage, DbException::STATUS_CANNOT_DELETE_INSTANCE, $e, $this->errors ?? [], [
                     'message' => $e->getMessage(),
                 ]
             );
