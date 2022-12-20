@@ -38,48 +38,51 @@ abstract class DbRepository implements DbRepositoryInterface
 
     /**
      * @param callable|null $filter
-     * @return array|ActiveRecord[]
+     * @param bool $withRelations
+     * @return array|ActiveRecord
      * @throws DbConnectionManagerException
      */
-    public function findAll(?callable $filter = null): array
+    public function findAll(?callable $filter = null, bool $withRelations = true): array
     {
         try {
-            $this->activate();
+            $this->activate($withRelations);
             return $this->find($filter)->all();
         } finally {
-            $this->deactivate();
+            $this->deactivate($withRelations);
         }
     }
 
     /**
      * @param callable|null $filter
+     * @param bool $withRelations
      * @return array|ActiveRecord
      * @throws DbConnectionManagerException
      * @throws DbException
      */
-    public function findOne(?callable $filter = null)
+    public function findOne(?callable $filter = null, bool $withRelations = true)
     {
         try {
-            $this->activate();
+            $this->activate($withRelations);
             return $this->find($filter)->one();
         } finally {
-            $this->deactivate();
+            $this->deactivate($withRelations);
         }
     }
 
     /**
      * @param callable|null $filter
+     * @param bool $withRelations
      * @return ActiveRecord|array
      * @throws DbConnectionManagerException
      * @throws DbException
      */
-    public function findFirst(?callable $filter = null)
+    public function findFirst(?callable $filter = null, bool $withRelations = true)
     {
         try {
-            $this->activate();
+            $this->activate($withRelations);
             return $this->find($filter)->first();
         } finally {
-            $this->deactivate();
+            $this->deactivate($withRelations);
         }
     }
 
@@ -105,48 +108,51 @@ abstract class DbRepository implements DbRepositoryInterface
 
     /**
      * @param ActiveRecord $model
+     * @param bool $withRelations
      * @return void
      * @throws DbConnectionManagerException
      * @throws DbException
      */
-    protected function saveModel(ActiveRecord $model): void
+    protected function saveModel(ActiveRecord $model, bool $withRelations = true): void
     {
         try {
-            $this->activate();
+            $this->activate($withRelations);
             $model->save();
         } finally {
-            $this->deactivate();
+            $this->deactivate($withRelations);
         }
     }
 
     /**
      * @param ActiveRecord $model
+     * @param bool $withRelations
      * @return int
      * @throws DbConnectionManagerException
      * @throws DbException
      */
-    protected function deleteModel(ActiveRecord $model): int
+    protected function deleteModel(ActiveRecord $model, bool $withRelations = true): int
     {
         try {
-            $this->activate();
+            $this->activate($withRelations);
             return $model->delete();
         } finally {
-            $this->deactivate();
+            $this->deactivate($withRelations);
         }
     }
 
     /**
      * @param ActiveRecord $model
+     * @param bool $withRelations
      * @return void
      * @throws DbConnectionManagerException
      */
-    protected function refreshModel(ActiveRecord $model): void
+    protected function refreshModel(ActiveRecord $model, bool $withRelations = true): void
     {
         try {
-            $this->activate();
+            $this->activate($withRelations);
             $model->refresh();
         } finally {
-            $this->deactivate();
+            $this->deactivate($withRelations);
         }
     }
 
