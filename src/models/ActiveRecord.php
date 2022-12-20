@@ -179,7 +179,9 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     public static function getDb(): Connection
     {
         if(($connectionManager = static::getConnectionManager()) !== null) {
-            return $connectionManager->getConnection(static::class);
+            if($connectionManager->hasConnection(static::class)) {
+                return $connectionManager->getConnection(static::class);
+            }
         }
 
         if(static::$denyDefaultConnection) {

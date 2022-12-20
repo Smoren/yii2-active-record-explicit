@@ -45,6 +45,15 @@ class DbConnectionManager implements DbConnectionManagerInterface
     }
 
     /**
+     * @param string|null $modelClass
+     * @return bool
+     */
+    public function hasConnection(?string $modelClass = null): bool
+    {
+        return isset($this->repositoryMap[$modelClass]) || $this->defaultConnection !== null;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function attachRepository(DbRepositoryInterface $repository): void
