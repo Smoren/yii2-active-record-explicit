@@ -12,6 +12,11 @@ use Smoren\Yii2\ActiveRecordExplicit\behaviors\AttributeTypecastBehavior;
 abstract class Model extends \yii\base\Model
 {
     /**
+     * @var bool
+     */
+    protected static $useTypecast = true;
+
+    /**
      * @var int
      */
     protected $statusCode = 200;
@@ -22,18 +27,13 @@ abstract class Model extends \yii\base\Model
     protected $dirtyAttributes = [];
 
     /**
-     * @var bool
-     */
-    protected $useTypecast = true;
-
-    /**
      * {@inheritDoc}
      */
     public function behaviors(): array
     {
         $result = parent::behaviors();
 
-        if($this->useTypecast) {
+        if(static::$useTypecast) {
             $result['typecast'] = [
                 'class' => AttributeTypecastBehavior::class,
                 'typecastBeforeValidate' => true,
