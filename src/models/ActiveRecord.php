@@ -5,6 +5,7 @@ namespace Smoren\Yii2\ActiveRecordExplicit\models;
 use Smoren\ExtendedExceptions\BadDataException;
 use Smoren\Yii2\ActiveRecordExplicit\behaviors\AttributeTypecastBehavior;
 use Smoren\Yii2\ActiveRecordExplicit\behaviors\TimestampBehavior;
+use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbConnectionManagerException;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Smoren\Yii2\ActiveRecordExplicit\interfaces\DbConnectionManagerInterface;
 use Smoren\Yii2\ActiveRecordExplicit\wrappers\WrappableInterface;
@@ -22,12 +23,17 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
     /**
      * @var bool
      */
-    protected $hasDirtyFieldsToUpdate = false;
+    protected static $denyDefaultConnection = false;
 
     /**
      * @var bool
      */
-    protected $useTypecast = true;
+    protected static $useTypecast = true;
+
+    /**
+     * @var bool
+     */
+    protected $hasDirtyFieldsToUpdate = false;
 
     /**
      * @inheritDoc
@@ -40,7 +46,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
             'class' => TimestampBehavior::class,
         ];
 
-        if($this->useTypecast) {
+        if(static::$useTypecast) {
             $result['typecast'] = [
                 'class' => AttributeTypecastBehavior::class,
                 'typecastBeforeValidate' => true,
@@ -168,12 +174,21 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
 
     /**
      * {@inheritDoc}
+     * @throws DbConnectionManagerException
      */
     public static function getDb(): Connection
     {
         if(($connectionManager = static::getConnectionManager()) !== null) {
             return $connectionManager->getConnection(static::class);
         }
+
+        if(static::$denyDefaultConnection) {
+            throw new DbConnectionManagerException(
+                'default connection is denied',
+                DbConnectionManagerException::CANNOT_FIND_CONNECTION
+            );
+        }
+
         return parent::getDb();
     }
 
