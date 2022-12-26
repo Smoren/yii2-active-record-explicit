@@ -157,16 +157,17 @@ abstract class DbRepository implements DbRepositoryInterface
     }
 
     /**
-     * @param callable $action
+     * @template T
+     * @param callable(): T $action
      * @param bool $withRelations
-     * @return void
+     * @return T
      * @throws DbConnectionManagerException
      */
-    protected function useConnection(callable $action, bool $withRelations = true): void
+    protected function useConnection(callable $action, bool $withRelations = true)
     {
         try {
             $this->activate($withRelations);
-            $action();
+            return $action();
         } finally {
             $this->deactivate();
         }
