@@ -35,7 +35,9 @@ class DbConnectionManager implements DbConnectionManagerInterface
             if($this->defaultConnection === null) {
                 throw new DbConnectionManagerException(
                     'cannot find connection',
-                    DbConnectionManagerException::CANNOT_FIND_CONNECTION
+                    DbConnectionManagerException::CANNOT_FIND_CONNECTION,
+                    null,
+                    ['modelClass' => $modelClass]
                 );
             }
             return $this->defaultConnection;
