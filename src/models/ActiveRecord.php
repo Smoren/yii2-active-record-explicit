@@ -204,7 +204,9 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord implements WrappableInt
         if(static::$denyDefaultConnection) {
             throw new DbConnectionManagerException(
                 'default connection is denied',
-                DbConnectionManagerException::CANNOT_FIND_CONNECTION
+                DbConnectionManagerException::CANNOT_FIND_CONNECTION,
+                null,
+                ['modelClass' => static::class]
             );
         }
 
