@@ -2,6 +2,7 @@
 
 namespace Smoren\Yii2\ActiveRecordExplicit\repository;
 
+use Exception;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbConnectionManagerException;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Smoren\Yii2\ActiveRecordExplicit\interfaces\DbConnectionManagerInterface;
@@ -10,6 +11,7 @@ use Smoren\Yii2\ActiveRecordExplicit\models\ActiveQuery;
 use Smoren\Yii2\ActiveRecordExplicit\models\ActiveRecord;
 use yii\base\InvalidConfigException;
 use yii\db\Connection;
+use yii\db\Transaction;
 use yii\di\NotInstantiableException;
 use Yii;
 
@@ -34,6 +36,14 @@ abstract class DbRepository implements DbRepositoryInterface
     public function getConnection(): Connection
     {
         return $this->connection;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionLevel(): string
+    {
+        return Transaction::READ_COMMITTED;
     }
 
     /**
@@ -86,6 +96,9 @@ abstract class DbRepository implements DbRepositoryInterface
         }
     }
 
+    /**
+     * @return array
+     */
     public function getRelatedModelClasses(): array
     {
         return [];
@@ -115,9 +128,17 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     protected function saveModel(ActiveRecord $model, bool $withRelations = true): void
     {
+        $transaction = $this->connection->beginTransaction($this->getTransactionLevel());
         try {
             $this->activate($withRelations);
             $model->save();
+            $transaction->commit();
+        } catch(DbException $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch(Exception $e) {
+            $transaction->rollBack();
+            throw new DbException('transaction exception', DbException::STATUS_UNKNOWN, $e);
         } finally {
             $this->deactivate($withRelations);
         }
@@ -132,9 +153,16 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     protected function deleteModel(ActiveRecord $model, bool $withRelations = true): int
     {
+        $transaction = $this->connection->beginTransaction($this->getTransactionLevel());
         try {
             $this->activate($withRelations);
             return $model->delete();
+        } catch(DbException $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch(Exception $e) {
+            $transaction->rollBack();
+            throw new DbException('transaction exception', DbException::STATUS_UNKNOWN, $e);
         } finally {
             $this->deactivate($withRelations);
         }
