@@ -156,7 +156,9 @@ abstract class DbRepository implements DbRepositoryInterface
         $transaction = $this->connection->beginTransaction($this->getTransactionLevel());
         try {
             $this->activate($withRelations);
-            return $model->delete();
+            $result = $model->delete();
+            $transaction->commit();
+            return $result;
         } catch(DbException $e) {
             $transaction->rollBack();
             throw $e;
