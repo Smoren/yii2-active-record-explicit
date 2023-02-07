@@ -33,6 +33,7 @@ abstract class DbRepository implements DbRepositoryInterface
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
+        $this->nestedTransactionManager = new NestedTransactionManager($this->connection);
     }
 
     /**
