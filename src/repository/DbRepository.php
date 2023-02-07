@@ -3,6 +3,7 @@
 namespace Smoren\Yii2\ActiveRecordExplicit\repository;
 
 use Exception;
+use Smoren\Yii2\ActiveRecordExplicit\components\NestedTransactionManager;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbConnectionManagerException;
 use Smoren\Yii2\ActiveRecordExplicit\exceptions\DbException;
 use Smoren\Yii2\ActiveRecordExplicit\interfaces\DbConnectionManagerInterface;
@@ -21,6 +22,10 @@ abstract class DbRepository implements DbRepositoryInterface
      * @var Connection
      */
     protected $connection;
+    /**
+     * @var NestedTransactionManager
+     */
+    protected NestedTransactionManager $nestedTransactionManager;
 
     /**
      * @param Connection $connection
@@ -128,16 +133,16 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     protected function saveModel(ActiveRecord $model, bool $withRelations = true): void
     {
-        $transaction = $this->connection->beginTransaction($this->getTransactionLevel());
+        $this->nestedTransactionManager->start($this->getTransactionLevel());
         try {
             $this->activate($withRelations);
             $model->save();
-            $transaction->commit();
+            $this->nestedTransactionManager->commit();
         } catch(DbException $e) {
-            $transaction->rollBack();
+            $this->nestedTransactionManager->rollBack();
             throw $e;
         } catch(Exception $e) {
-            $transaction->rollBack();
+            $this->nestedTransactionManager->rollBack();
             throw new DbException('transaction exception', DbException::STATUS_UNKNOWN, $e);
         } finally {
             $this->deactivate($withRelations);
@@ -153,17 +158,17 @@ abstract class DbRepository implements DbRepositoryInterface
      */
     protected function deleteModel(ActiveRecord $model, bool $withRelations = true): int
     {
-        $transaction = $this->connection->beginTransaction($this->getTransactionLevel());
+        $this->nestedTransactionManager->start($this->getTransactionLevel());
         try {
             $this->activate($withRelations);
             $result = $model->delete();
-            $transaction->commit();
+            $this->nestedTransactionManager->commit();
             return $result;
         } catch(DbException $e) {
-            $transaction->rollBack();
+            $this->nestedTransactionManager->rollBack();
             throw $e;
         } catch(Exception $e) {
-            $transaction->rollBack();
+            $this->nestedTransactionManager->rollBack();
             throw new DbException('transaction exception', DbException::STATUS_UNKNOWN, $e);
         } finally {
             $this->deactivate($withRelations);
