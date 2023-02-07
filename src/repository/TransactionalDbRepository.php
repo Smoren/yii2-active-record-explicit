@@ -10,7 +10,7 @@ use Exception;
 /**
  * Transactional repository wrapper
  */
-class TransactionalDBRepository
+class TransactionalDbRepository
 {
     /**
      * @var Connection
