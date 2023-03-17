@@ -37,7 +37,12 @@ class ActiveRecordGenerator
     /**
      * @var callable
      */
-    protected $onPageGotHandler;
+    protected $onBeforeGetPage;
+
+    /**
+     * @var callable
+     */
+    protected $onAfterGetPage;
 
     /**
      * @var Connection|null
@@ -47,15 +52,19 @@ class ActiveRecordGenerator
     /**
      * @param ActiveQuery $query
      * @param int $pageSize
-     * @param callable|null $onPageGotHandler
+     * @param callable|null $onBeforeGetPage
+     * @param callable|null $onAfterGetPage
      * @param Connection|null $db
      * @return Generator
      */
     public static function generate(
-        ActiveQuery $query, int $pageSize, ?callable $onPageGotHandler = null, ?Connection $db = null
-    ): Generator
-    {
-        $inst = new static($query, $pageSize, $onPageGotHandler, $db);
+        ActiveQuery $query,
+        int $pageSize,
+        ?callable $onBeforeGetPage = null,
+        ?callable $onAfterGetPage = null,
+        ?Connection $db = null
+    ): Generator {
+        $inst = new static($query, $pageSize, $onBeforeGetPage, $onAfterGetPage, $db);
         return $inst->generator;
     }
 
@@ -63,11 +72,16 @@ class ActiveRecordGenerator
      * ActiveRecordGenerator constructor.
      * @param ActiveQuery $query
      * @param int $pageSize
-     * @param callable|null $onPageGotHandler
+     * @param callable|null $onBeforeGetPage
+     * @param callable|null $onAfterGetPage
      * @param Connection|null $db
      */
     protected function __construct(
-        ActiveQuery $query, int $pageSize, ?callable $onPageGotHandler = null, ?Connection $db = null
+        ActiveQuery $query,
+        int $pageSize,
+        ?callable $onBeforeGetPage = null,
+        ?callable $onAfterGetPage = null,
+        ?Connection $db = null
     )
     {
         $this->db = $db;
@@ -76,10 +90,16 @@ class ActiveRecordGenerator
         $this->page = 0;
         $this->chunk = [];
 
-        if($onPageGotHandler === null) {
-            $this->onPageGotHandler = function(int $page, array &$chunk) {};
+        if($onBeforeGetPage === null) {
+            $this->onBeforeGetPage = function(int $page, array &$chunk) {};
         } else {
-            $this->onPageGotHandler = $onPageGotHandler;
+            $this->onBeforeGetPage = $onBeforeGetPage;
+        }
+
+        if($onAfterGetPage === null) {
+            $this->onAfterGetPage = function(int $page, array &$chunk) {};
+        } else {
+            $this->onAfterGetPage = $onAfterGetPage;
         }
 
         $this->generator = $this->makeGenerator();
@@ -92,10 +112,11 @@ class ActiveRecordGenerator
     {
         while(true) {
             if(!count($this->chunk)) {
+                ($this->onBeforeGetPage)($this->page, $this->chunk);
                 $this->chunk = array_reverse(
                     $this->query->offset($this->page*$this->pageSize)->limit($this->pageSize)->all($this->db)
                 );
-                ($this->onPageGotHandler)($this->page, $this->chunk);
+                ($this->onAfterGetPage)($this->page, $this->chunk);
                 $this->page++;
 
                 if(!count($this->chunk)) {
