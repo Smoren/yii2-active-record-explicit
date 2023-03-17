@@ -22,9 +22,10 @@ class ActiveRecordQueueGenerator extends ActiveRecordGenerator
     {
         while(true) {
             if(!count($this->chunk)) {
+                ($this->onBeforeGetPage)($this->pageCounter, $this->chunk);
                 $this->query->limit($this->pageSize);
                 $this->chunk = array_reverse($this->query->all($this->db));
-                ($this->onPageGotHandler)($this->pageCounter++, $this->chunk);
+                ($this->onAfterGetPage)($this->pageCounter++, $this->chunk);
 
                 if(!count($this->chunk)) {
                     break;
